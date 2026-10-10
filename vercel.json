@@ -1,0 +1,26 @@
+{
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "framework": null,
+    "buildCommand": "npm run build",
+    "outputDirectory": "public",
+    "functions": {
+        "api/index.php": {
+            "runtime": "vercel-php@0.8.0",
+            "maxDuration": 30
+        }
+    },
+    "rewrites": [
+        {
+            "source": "/(build|css|images)/(.*)",
+            "destination": "/public/$1/$2"
+        },
+        {
+            "source": "/(favicon.ico|robots.txt)",
+            "destination": "/public/$1"
+        },
+        {
+            "source": "/(.*)",
+            "destination": "/api/index.php"
+        }
+    ]
+}

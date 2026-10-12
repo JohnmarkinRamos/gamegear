@@ -15,9 +15,6 @@
             @auth
                 @if (auth()->user()->is_admin)
                     <nav class="nav-links admin-top-nav" aria-label="Admin navigation">
-                        <a href="{{ route('admin.dashboard') }}">Overview</a>
-                        <a href="{{ route('admin.products.index') }}">Products</a>
-                        <a href="{{ route('admin.orders.index') }}">Orders</a>
                         <span class="nav-user">{{ auth()->user()->name }}</span>
                         <form method="post" action="{{ route('admin.logout') }}">@csrf<button class="nav-action" type="submit">Admin log out</button></form>
                     </nav>

@@ -17,6 +17,18 @@ class ShopFlowTest extends TestCase
 {
     use RefreshDatabase;
 
+    public function test_https_forwarded_requests_generate_secure_asset_and_form_urls(): void
+    {
+        $response = $this->withServerVariables([
+            'HTTP_X_FORWARDED_PROTO' => 'https',
+            'REMOTE_ADDR' => '127.0.0.1',
+        ])->get('/login');
+
+        $response->assertOk()
+            ->assertSee('href="https://localhost:8000/css/gamegear.css"', false)
+            ->assertSee('action="https://localhost:8000/login"', false);
+    }
+
     public function test_authenticated_customer_can_browse_database_products(): void
     {
         $user = User::create(['name' => 'Customer', 'username' => 'customer', 'password' => Hash::make('secure-pass-123')]);
@@ -365,5 +377,4 @@ class ShopFlowTest extends TestCase
         $this->assertSame(3, $product->fresh()->sold);
         $this->assertDatabaseHas('order_events', ['order_id' => $order->id, 'label' => 'Cancelled']);
     }
-
 }

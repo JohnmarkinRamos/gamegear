@@ -80,6 +80,7 @@
     <form class="review-form" method="post" action="{{ route('products.reviews.store', $product) }}">
         @csrf
         <div><p class="eyebrow">COMMUNITY FEEDBACK</p><h3>{{ $userReview ? 'Update your review' : 'Share your experience' }}</h3></div>
+        @include('components.momo-note', ['label' => 'MOMO SAYS', 'message' => 'Your honest review helps another player find their new favorite.', 'class' => 'momo-note-review', 'pose' => 'paw'])
         <label>Rating<select name="rating" required>@for ($score = 5; $score >= 1; $score--)<option value="{{ $score }}" @selected(old('rating', $userReview?->rating ?? 5) == $score)>{{ $score }} {{ $score === 1 ? 'star' : 'stars' }}</option>@endfor</select></label>
         <label>Review title<input name="title" value="{{ old('title', $userReview?->title) }}" maxlength="160" placeholder="Sum up your experience"></label>
         <label>Your review<textarea name="body" rows="4" minlength="8" maxlength="2000" required placeholder="What should other buyers know?">{{ old('body', $userReview?->body) }}</textarea></label>

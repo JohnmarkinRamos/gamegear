@@ -4,6 +4,7 @@
 
 @section('content')
 <div class="page-heading"><div><p class="eyebrow">YOUR SELECTION</p><h1>Shopping cart</h1></div><a class="text-link" href="{{ route('shop') }}">Continue shopping</a></div>
+@include('components.momo-note', ['label' => 'MOMO’S CART CHECK', 'message' => 'Your picks are looking paw-some. Ready when you are.', 'class' => 'momo-note-cart', 'pose' => 'roll'])
 @if ($cart->isEmpty())
     <div class="empty-state"><h2>Your cart is empty</h2><p>There is plenty of gear waiting for you.</p><a class="button primary compact" href="{{ route('shop') }}">Browse products</a></div>
 @else

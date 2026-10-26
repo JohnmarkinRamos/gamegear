@@ -7,6 +7,7 @@
     @include('admin.partials.navigation')
     <section class="admin-content">
         <div class="admin-heading"><div><p class="eyebrow">STORE MANAGEMENT</p><h1>Overview</h1><p class="muted">Today at a glance.</p></div><a class="button primary compact" href="{{ route('admin.products.create') }}">Add product</a></div>
+        @include('components.momo-note', ['label' => 'MOMO’S STORE NOTE', 'message' => 'A little love for the details makes every setup shine.', 'class' => 'momo-note-dashboard', 'pose' => 'wave'])
         <div class="admin-stats">
             <article class="admin-stat"><span>Catalog products</span><b>{{ number_format($productCount) }}</b><a href="{{ route('admin.products.index') }}">Manage catalog</a></article>
             <article class="admin-stat"><span>Open orders</span><b>{{ number_format($openOrders) }}</b><a href="{{ route('admin.orders.index') }}">View orders</a></article>

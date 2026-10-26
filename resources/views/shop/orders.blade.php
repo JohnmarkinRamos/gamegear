@@ -4,6 +4,7 @@
 
 @section('content')
 <div class="page-heading"><div><p class="eyebrow">PURCHASE HISTORY</p><h1>My orders</h1></div><a class="button outline compact" href="{{ route('shop') }}">Shop gear</a></div>
+@include('components.momo-note', ['label' => 'MOMO’S ORDER UPDATE', 'message' => 'Your order story lives here, from checkout to cozy delivery.', 'class' => 'momo-note-orders', 'pose' => 'sleep'])
 <nav class="tabs" aria-label="Filter orders">
     @foreach (['All', 'To ship', 'To receive', 'Completed', 'Cancelled'] as $filter)
         <a class="{{ $status === $filter ? 'active' : '' }}" href="{{ route('orders.index', ['status' => $filter]) }}">{{ $filter }}</a>
@@ -25,6 +26,7 @@
                             <summary>{{ $review ? 'Edit your rating and comment' : 'Rate and comment' }}</summary>
                             <form method="post" action="{{ route('products.reviews.store', $item->product) }}">
                                 @csrf
+                                @include('components.momo-note', ['label' => 'MOMO SAYS', 'message' => 'Leave your gear a little love with a quick review.', 'class' => 'momo-note-review', 'pose' => 'paw'])
                                 <fieldset class="inline-rating">
                                     <legend>Your rating</legend>
                                     @for ($score = 5; $score >= 1; $score--)

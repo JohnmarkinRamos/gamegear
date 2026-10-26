@@ -94,6 +94,19 @@ class ShopFlowTest extends TestCase
             ->assertSee('Total payment');
     }
 
+    public function test_cart_displays_its_own_rolling_momo_companion(): void
+    {
+        $user = User::create(['name' => 'Customer', 'username' => 'customer', 'password' => Hash::make('secure-pass-123')]);
+        $product = Product::create([
+            'name' => 'Gaming Mouse', 'brand' => 'Nexa', 'category' => 'Mouse', 'price' => 799, 'stock' => 5, 'sold' => 0,
+        ]);
+
+        $this->actingAs($user)->withSession(['cart' => [$product->id => 1]])
+            ->get(route('cart'))
+            ->assertOk()
+            ->assertSee('momo-note-roll');
+    }
+
     public function test_product_page_shows_controller_gallery_rating_and_example_buyer_comments(): void
     {
         $this->seed(\Database\Seeders\ProductSeeder::class);
@@ -140,7 +153,8 @@ class ShopFlowTest extends TestCase
 
         $this->actingAs($user)->get(route('products.show', $firstProduct))
             ->assertOk()
-            ->assertSee('COMMUNITY FEEDBACK');
+            ->assertSee('COMMUNITY FEEDBACK')
+            ->assertSee('momo-note-paw');
         $this->post(route('products.reviews.store', $firstProduct), $reviewData)
             ->assertRedirect(route('products.show', $firstProduct).'#reviews');
         $this->post(route('products.reviews.store', $secondProduct), $reviewData)
@@ -158,6 +172,8 @@ class ShopFlowTest extends TestCase
         $this->get(route('orders.index'))
             ->assertOk()
             ->assertSee('Edit your rating and comment')
+            ->assertSee('momo-note-sleep')
+            ->assertSee('momo-note-paw')
             ->assertSee('Your rating')
             ->assertSee('Comment');
     }
@@ -276,7 +292,11 @@ class ShopFlowTest extends TestCase
         $this->post(route('admin.login.store'), ['username' => 'gearadmin', 'password' => 'secure-admin-pass'])
             ->assertRedirect(route('admin.dashboard'));
         $this->assertAuthenticatedAs($admin);
-        $this->get(route('admin.dashboard'))->assertOk()->assertSee('Admin log out')->assertDontSee('Cart');
+        $this->get(route('admin.dashboard'))
+            ->assertOk()
+            ->assertSee('Admin log out')
+            ->assertSee('momo-note-wave')
+            ->assertDontSee('Cart');
         $this->get(route('shop'))->assertForbidden();
     }
 
